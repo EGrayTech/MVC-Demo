@@ -129,7 +129,9 @@ Now let’s handle the “One to Many” relationships between team and player. 
 ```
 public virtual ICollection<Player> Players { get; set; }
 ```
-Take note of the pattern here, we’re using an ``ICollection`` which allows us to specify a ``type``. In our example that type is our class ``Player``. If we were defining a “Many to Many” relationship then we would be adding an ICollection property to each class. With our relationships defined, it’s time to add some data annotations.
+Take note of the pattern here, we’re using an ``ICollection`` which allows us to specify a ``type``. In our example that type is our class ``Player``. If we were defining a “Many to Many” relationship then we would be adding an ICollection property to each class. 
+
+With our relationships defined, it’s time to add some data annotations.
 
 Entity Framework requires is that we add a ``[Key]`` to our ``Id`` field so it knows which property is our unique ID for each class. In our example, however, we’re going to be doing a bit more work to control how Entity Framework creates our database. We’ll do that by adding some data annotations to our properties.
 First, we need to add the Key data annotation. So above each of our Id properties we just add ``[Key]``
@@ -173,7 +175,7 @@ OK, now that we’ve added some hints to tell the Entity Framework a little more
 public string TeamName { get; set; }
 ```
 
-This will tell insure that while our property is ``TeamName`` that our label will be **Team Name**. In addition to ``[Display]`` we also have ``[DisplayFormat]`` which is useful when we want to control the actual format for the information being displayed. In our code, we’ll be using it to control the way the the ``DateAdded`` data is displayed. On our ``DateAdded`` property we add something like this.
+This will insure that while our property is ``TeamName`` that our label will be **Team Name**. In addition to ``[Display]`` we also have ``[DisplayFormat]`` which is useful when we want to control the actual format for the information being displayed. In our code, we’ll be using it to control the way the the ``DateAdded`` data is displayed. On our ``DateAdded`` property we add something like this.
 
 ```
 [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
@@ -260,7 +262,8 @@ Next Add a connection string to the web.config file
  <connectionStrings>
     <add name="[YOUR CONNECTION STRING NAME]" 
         connectionString="Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\[YOUR DB NAME].mdf;Initial Catalog=[YOUR DB NAME];Integrated Security=True" 
-    providerName="System.Data.SqlClient"/>
+        providerName="System.Data.SqlClient"
+    />
   </connectionStrings>
 
 ```
@@ -289,6 +292,27 @@ public DbSet<Team> Teams { get; set; }
 ```
 
 Again, look at the pattern here. It’s a ``DbSet`` with a ``<Type>`` and a name for the property. I usually use the plural of my class name for the actual property name. This pattern needs to be repeated for each class you in your project.
+When you're finished your class shouls look something like this:
+
+```
+public class DB : DbContext
+{
+	public DB() : base("DB")
+	{
+	}
+
+	public DbSet<Player> Players { get; set; }
+	public DbSet<Team> Teams { get; set; }
+
+	protected override void OnModelCreating(DbModelBuilder modelBuilder)
+	{
+		modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+	}
+
+
+}
+```
+
 Now that we have a database context class we need to add migrations.
 
 
