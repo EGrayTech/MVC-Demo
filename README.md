@@ -56,12 +56,13 @@ If you want to dive a little deeper into coding standards here are a couple of g
 
 Now that we have a set of standards we’re ready to start creating our classes.
 
-Right-click on the models folder and choose add:
+Right-click on the models folder and choose add->class:
 
 ![ addclass.JPG]( addclass.JPG)
 
-Name your class and click save
-Add some using statements to the top of your class file (we’ll need these later)
+Name your class and click save.
+
+Add some using statements to the top of your class file (we’ll need these later) and populate your classes with as many properties as you need.
 ```
 using System.ComponentModel.DataAnnotations;
 using System.Collections;
@@ -107,7 +108,7 @@ namespace TeamRoster.Models
     }
 }
 ```
-Next, we’ll add some data annotations (which is why we added ``using System.ComponentModel.DataAnnotations;``). 
+
 Now that our classes are created, let’s consider the relationship between each class. By relationship I mean one of the following:
 
 - One to One
