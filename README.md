@@ -57,7 +57,9 @@ If you want to dive a little deeper into coding standards here are a couple of g
 Now that we have a set of standards we’re ready to start creating our classes.
 
 Right-click on the models folder and choose add:
+
 ![ addclass.JPG]( addclass.JPG)
+
 Name your class and click save
 Add some using statements to the top of your class file (we’ll need these later)
 ```
